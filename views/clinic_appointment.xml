@@ -1,0 +1,120 @@
+<odoo>
+    <data>
+        <record id="Appointments_form_view" model="ir.ui.view">
+            <field name="name">Appointments.form.view</field>
+            <field name="model">patient.appointment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="change_state_new" type="object" string="New"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('state', '==', 'new'),('state', '==', 'cancelled')]}"/>
+                        <button name="change_state_confirm" type="object" string="Confirm"
+                                class="btn btn-success" states="draft"/>
+                        <button name="change_state_cancel" type="object" string="Cancel" data-hotkey="c"
+                                class="btn btn-danger" states="confirmed"/>
+                        <button name="change_state_draft" type="object" string="Draft"
+                                class="btn btn-warning" states="new"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="new,confirmed,cancelled"/>
+                    </header>
+                    <sheet>
+                        <group>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="priority" widget="priority" class="mr-3"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <button name="%(clinic_management.patients-appointments_action)d" type="action"
+                                    string="Action Button"
+                                    class="btn btn-info" confirm="Do you want to return to appointments again? "
+                                    help="By Clicking This Button, You Will be redirect to appointments records"/>
+                                                        <field name="hide_price" widget="boolean_toggle"/>
+                            </group>
+<group>
+                            <field name="name"/>
+                            <field name="patient_id"/>
+                            <field name="clinic_id"/>
+                            <field name="doctor_id"/>
+                            <field name="notes"/>
+                            <button name="rainbow_effect_action" type="object"
+                                    string="Rain Bow Effect"
+                                    class="btn btn-info" confirm="Do you want to see rain bow? "
+                                    help="By Clicking This Button, You Will see rainbow"/>
+                        </group>
+                        <notebook>
+
+                            <page string="pharmacy">
+                                <field name="pharmacy_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="price" attrs="{'column_invisible': [('parent.hide_price', '=', True)]}"/>
+
+                                        <field name="qty"/>
+                                    </tree>
+                                    <form>
+
+                                                                                <field name="product_id"/>
+
+                                        <field name="price" attrs="{'column_invisible': [('parent.hide_price', '=', True)]}"/>
+                                        <field name="qty"/>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="Patient_Appointment_tree_view" model="ir.ui.view">
+            <field name="name">Appointments Tree</field>
+            <field name="model">patient.appointment</field>
+            <field name="arch" type="xml">
+                <tree decoration-danger="state=='cancelled'" decoration-success="state=='confirmed'"
+                      delete="0" multi_edit="1">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="clinic_id"/>
+                    <field name="doctor_id" optional="show" widget="many2one_avatar_user"/>
+                    <field name="notes"/>
+                    <field name="state" widget="badge" decoration-danger="state=='cancelled'"
+                           decoration-success="state=='confirmed'"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="appointment_sequence_view" model="ir.sequence">
+            <field name="name">Patient Sequence</field>
+            <field name="code">clinic.appointment</field>
+            <field name="prefix">APP</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="Patient_Appointment_calendar_view" model="ir.ui.view">
+            <field name="name">Appointments Calendar</field>
+            <field name="model">patient.appointment</field>
+            <field name="arch" type="xml">
+                <calendar string="Appointments Calendar" date_start="date" color="patient_id"
+                          js_class="project_calendar">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="patients-appointments_action" model="ir.actions.act_window">
+            <field name="name">Appointments</field>
+            <field name="res_model">patient.appointment</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Your First Appointment
+                </p>
+            </field>
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+        <menuitem sequence="1" id="patients_appointments" name="Appointments" parent="clinic_root_menu"
+                  action="patients-appointments_action"/>
+    </data>
+</odoo>

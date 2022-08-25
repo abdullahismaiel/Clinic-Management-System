@@ -1,0 +1,55 @@
+<odoo>
+    <data>
+        <record id="Clinic_form_view" model="ir.ui.view">
+            <field name="name">Clinics.form.view</field>
+            <field name="model">res.clinic</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="clinic_no"/>
+                            <field name="doctors_ids" widget="many2many_tags"  options="{'color_field': 'color'}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="Clinic_tree_view" model="ir.ui.view">
+            <field name="name">Clinic Tree</field>
+            <field name="model">res.clinic</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="clinic_no"/>
+                    <field name="doctors_ids"/>
+
+                </tree>
+            </field>
+        </record>
+        <record id="Clinic_search_view" model="ir.ui.view">
+            <field name="name">Clinic Search View</field>
+            <field name="model">res.clinic</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"
+                           filter_domain="['|','|', ('name', 'ilike', self), ('doctors_ids', 'ilike', self),('clinic_no', 'ilike', self)]"/>
+                    <field name="doctors_ids"/>
+                    <field name="clinic_no"/>
+
+                </search>
+            </field>
+        </record>
+        <record id="clinic_action" model="ir.actions.act_window">
+            <field name="name">Clinics</field>
+            <field name="res_model">res.clinic</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Your First Clinc System
+                </p>
+            </field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem sequence="3" id="Clinic_menu" name="Clinic" parent="clinic_root_menu" action="clinic_action"/>
+    </data>
+</odoo>

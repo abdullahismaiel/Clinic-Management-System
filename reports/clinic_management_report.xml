@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="clinic_appointment_report"
+                model="patient.appointment"
+                string="Clinic Report"
+                name="clinic_management.report_patient_appointment_view"
+                report_type="qweb-pdf"/>
+
+        <template id="report_patient_appointment_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h1 class="alert alert-success m-"> Pateint Appointment</h1>
+                            <table class="table table-bordered">
+                                <tr>
+                                <th>
+                                    Patient Name
+                                </th>
+
+                                <th>
+                                    Clinic
+                                </th>
+                                <th>
+                                    Doctor Name
+                                </th>
+                                 <th>
+                                    Clinic Date
+                                </th>
+                                </tr>
+<tr>
+    <td><span t-field="doc.patient_id"/></td>
+        <td><span t-field="doc.clinic_id"/></td>
+    <td><span t-field="doc.doctor_id"/></td>
+    <td><span t-field="doc.date"/></td>
+
+</tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
